@@ -1,0 +1,150 @@
+<script type="text/javascript" src="/tpl/Public/Admin/vendors/datatables.net/js/jquery.dataTables.js"></script>
+<div>
+    <div class="page-title">
+        <div class="title_left">支付管理</div>
+        <div class="title_right" style="width:320px;float:right;">
+            <form id="export" method="post" action="/Admin/User/ajaxList?export=1&isdraft={$isdraft}&keyword="></form>
+            <button id="btnexport" type="button" class="btn btn-primary btn-sm">导出</button>
+            </form>
+            <input type="text" id="keyword" name="keyword"/>
+            <button id="btnsearch" type="button" class="btn btn-primary btn-sm">搜索</button>
+        </div>
+    </div>
+</div>
+<div style="min-height:560px;">
+    <table id="datalist" class="table table-striped table-hover"></table>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:450px;height:600px;position:absolute;left:30%;top:150px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="margin-left:150px">订单详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_data_one">
+                    <ul>
+                        <li>到账金额<span style="font-size:24px;color:black">¥5000</span></li>
+                        <li>购买项目<span></span></li>
+                        <li>订单状态<span></span></li>
+                        <li>创建时间<span></span></li>
+                        <li>转账单号<span></span></li>
+                    </ul>
+                </div>
+                <div class="modal_data_two">
+                    <ul>
+                        <li>收款方<span></span></li>
+                        <li>收款账号<span></span></li>
+                    </ul>
+                </div>
+                <div class="modal_data_three">
+                    <ul>
+                        <li>支付账户<span></span></li>
+                        <li>支付方式<span></span></li>
+                    </ul>
+                </div>
+                <div class="modal_data_four">
+                    <ul>
+                        <li>用户名<span></span></li>
+                        <li>联系方式<span></span></li>
+                        <li>身份证<span></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#datalist').DataTable({
+            "ajax": '/Admin/User/ajaxList',
+            'serverSide': true,
+            'searching': true,
+            'bFilter': false,
+            'bLengthChange': false,
+            'dom': 'rtlp',
+            'columns': [
+                {"data": 'id', "title": "订单编号"},
+                {"data": 'id', "title": "用户编号"},
+                {"data": 'id', "title": "购买项目"},
+                {"data": 'id', "title": "金额"},
+                {"data": 'register_time', "title": "创建时间"},
+                {"data": 'id', "title": "订单状态"},
+                {"title": "详情"},
+            ],
+            'columnDefs': [
+                {
+                    "targets": 6,
+                    "render": function (data, type, row) {
+                        return '<a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class="check-detail" id="' + row.id + '">查看</a>';
+                    }
+                }
+            ],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            'createdRow': function (row, data, index) {	//行回调
+                //$('td',row).eq(0).innerHTML($('input'));
+            }
+        });
+
+        $('#btnsearch').on('click', function () {
+            table.search($('#keyword').val()).draw();
+        });
+
+        $('#btnexport').on('click', function () {
+            $('#export').submit();
+        });
+
+        $('#myModal').on('show.bs.modal', function (event) {  
+            // $(".modal-body").html(event.relatedTarget.id);
+           console.log(event);
+           $(".modal-body ul").css("padding","0");
+           $(".modal-body li").css({
+                 "width":"400px",
+                 "height":"30px",
+                 "marginTop":"10px",
+                 "lineHeight":"30px",
+                 "listStyle":"none",
+           })
+            $(".modal-body div").css({
+                "borderBottom":"1px solid #ccc"
+            })
+           $(".modal-body span").css("float","right");
+        })
+        var id = event.relatedTarget.id;
+        $(".modal_data_one").eq(0).html()
+        $(".modal_data_one").eq(1).html()
+        $(".modal_data_one").eq(2).html()
+        $(".modal_data_one").eq(3).html()
+        $(".modal_data_one").eq(4).html()
+        $(".modal_data_one").eq(0).html()
+        $(".modal_data_one").eq(1).html()
+        $(".modal_data_one").eq(0).html()
+        $(".modal_data_one").eq(1).html()
+        $(".modal_data_one").eq(0).html()
+        $(".modal_data_one").eq(1).html()
+        $(".modal_data_one").eq(2).html()
+    });
+</script>
